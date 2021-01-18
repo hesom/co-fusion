@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.10.0)
 project(cofusion)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -27,7 +27,13 @@ include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
 # gSLICr
-find_package(gSLICr REQUIRED)
+set(GSLICR_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps/gSLICr")
+include_directories(${GSLICR_DIR}/gSLICr_Lib)
+link_directories(${GSLICR_DIR}/build)
+
+set(DENSECRF_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps/densecrf")
+include_directories(${DENSECRF_DIR}/include)
+link_directories(${DENSECRF_DIR}/build/external)
 
 # Pangolin
 find_package(Pangolin 0.5 REQUIRED)

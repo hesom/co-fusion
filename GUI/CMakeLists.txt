@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(cofusion-gui)
 
@@ -63,7 +63,7 @@ target_link_libraries(CoFusion
 )
 
 # deactivate 'class-memaccess' error for direct memcpy of list of 'Eigen::Vector4f'
-target_compile_options(CoFusion PRIVATE "-Wno-error=class-memaccess")
+#target_compile_options(CoFusion PRIVATE "-Wno-error=class-memaccess")
 
 add_library(CoFusionTools SHARED
             ${tools_srcs})

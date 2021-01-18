@@ -26,7 +26,6 @@
 #include <boost/algorithm/string.hpp>
 #include <GUI/Tools/PangolinReader.h>
 
-#include <filesystem>
 
 /*
  * Parameters:
@@ -262,10 +261,6 @@ MainController::MainController(int argc, char* argv[])
     // Create export dir if it doesn't exist
     boost::filesystem::path eDir(exportDir);
     boost::filesystem::create_directory(eDir);
-  }
-
-  if (exportDir.empty()) {
-    exportDir = std::filesystem::temp_directory_path() / "";
   }
 
   std::cout << "Initialised MainController. Frame resolution is set to: " << Resolution::getInstance().width() << "x"

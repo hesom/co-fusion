@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.10)
 
 project(cofusion)
 
@@ -55,8 +55,18 @@ add_definitions(-DSHOW_DEBUG_VISUALISATION)
 endif()
 
 ## Directories
-find_package(densecrf REQUIRED)
+#find_package(densecrf REQUIRED)
 set(cofusion_SHADER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Shaders" CACHE PATH "Where the shaders live")
+
+set(DENSECRF_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../deps/densecrf")
+set(DENSECRF_LIBRARY_DIRS "${DENSECRF_DIR}/build/src/")
+set(DENSECRF_INCLUDE_DIRS "${DENSECRF_DIR}/include")
+set(DENSECRF_LIBRARIES densecrf)
+set(cofusion_SHADER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Shaders" CACHE PATH "Where the shaders live")
+
+message("Directories: ")
+message("DENSECRF_DIR: ${DENSECRF_DIR}")
+message("cofusion_SHADER_DIR: ${cofusion_SHADER_DIR}")
 
 message(STATUS "Directories: ")
 message(STATUS "cofusion_SHADER_DIR: ${cofusion_SHADER_DIR}")
@@ -69,6 +79,8 @@ include_directories(${PCL_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 link_directories(${PCL_LIBRARY_DIRS})
+link_directories(${DENSECRF_LIBRARY_DIRS})
+
 
 
 file(GLOB srcs *.cpp)
@@ -128,7 +140,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME}
     gSLICr_lib
-    densecrf
+    ${DENSECRF_LIBRARIES}
+    ${Eigen_LIBRARIES}
     ${Pangolin_LIBRARIES}
     ${CUDA_LIBRARIES}
     ${SUITESPARSE_LIBRARIES}
@@ -139,7 +152,7 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES INTERFACE_LINK_LIBRARIES "")
 
 # deactivate 'class-memaccess' error for direct memcpy of list of 'Eigen::Vector4f'
-target_compile_options(${PROJECT_NAME} PRIVATE "-Wno-error=class-memaccess")
+#target_compile_options(${PROJECT_NAME} PRIVATE "-Wno-error=class-memaccess")
 
 
 target_include_directories(${PROJECT_NAME} PUBLIC
